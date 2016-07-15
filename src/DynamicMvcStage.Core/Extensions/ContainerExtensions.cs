@@ -33,5 +33,19 @@ namespace DynamicMvcStage.Core.DependencyInjection
             container.Register<IDynamicControllerTypeFactory, DefaultDynamicControllerTypeFactory>();
             return container;
         }
+
+        public static IContainer RegisterDynamicMvcController<TService>(this IContainer container)
+        {
+            if (container == null) throw new ArgumentNullException(nameof(container));
+            container.RegisterDynamicMvcController<TService, TService>();
+            return container;
+        }
+
+        public static IContainer RegisterDynamicMvcController<TService, TImplementation>(this IContainer container)
+        {
+            if (container == null) throw new ArgumentNullException(nameof(container));
+           
+            return container;
+        }
     }
 }

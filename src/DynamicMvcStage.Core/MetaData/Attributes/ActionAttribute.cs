@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace DynamicMvcStage.Core.MetaData.Attributes
 {
-    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public class ControllerAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    public class ActionAttribute : Attribute
     {
         public string Name { get; set; }
 
-        public ControllerAttribute() { }
+        public ActionAttribute() { }
 
-        public ControllerAttribute(string name)
+        public ActionAttribute(string name)
         {
             Name = name;
         }

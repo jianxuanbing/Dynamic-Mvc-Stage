@@ -78,6 +78,7 @@
     <Compile Include="DependencyInjection\Container.cs" />
     <Compile Include="DependencyInjection\StageDependencyResolve.cs" />
     <Compile Include="Controllers\DynamicControllerContext.cs" />
+    <Compile Include="MetaData\Attributes\ActionAttribute.cs" />
     <Compile Include="MetaData\Attributes\ControllerAttribute.cs" />
     <Compile Include="MetaData\DynamicActionMetaData.cs" />
     <Compile Include="MetaData\DynamicActionResultMetaData.cs" />
