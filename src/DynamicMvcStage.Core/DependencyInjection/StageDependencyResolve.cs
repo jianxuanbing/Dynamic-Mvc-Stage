@@ -9,20 +9,20 @@ namespace DynamicMvcStage.Core.DependencyInjection
 {
     public class StageDependencyResolve : IDependencyResolver
     {
-        private readonly Container container;
-        public StageDependencyResolve(Container container)
+        private readonly IContainer container;
+        public StageDependencyResolve(IContainer container)
         {
             this.container = container;
         }
         public object GetService(Type serviceType)
         {
             if (serviceType == null) return null;
-            return container.ResolveOrDefault(serviceType);
+            return container.TryResolve(serviceType);
         }
 
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            return null;
+            return new object[] { };
         }
     }
 }

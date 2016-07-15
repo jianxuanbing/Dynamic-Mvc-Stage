@@ -5,9 +5,14 @@ using System.Reflection;
 
 namespace DynamicMvcStage.Core.DependencyInjection
 {
-    public sealed class Container
+    public sealed class Container:IContainer
     {
-        private readonly ConcurrentDictionary<Type , Type> container = new ConcurrentDictionary<Type , Type>();
+        private readonly ConcurrentDictionary<Type, Type> container;
+
+        public Container()
+        {
+            container = new ConcurrentDictionary<Type, Type>();
+        }
 
         public void Register(Type serviceType , Type implementationType)
         {
@@ -29,6 +34,9 @@ namespace DynamicMvcStage.Core.DependencyInjection
             if (serviceType == null)
                 throw new ArgumentNullException(nameof(serviceType));
 
+            if (serviceType == typeof(IContainer))
+                return this;
+
             Type implementationType;
 
             if (!container.TryGetValue(serviceType , out implementationType))
@@ -37,10 +45,13 @@ namespace DynamicMvcStage.Core.DependencyInjection
             return CreateService(implementationType);
         }
 
-        public object ResolveOrDefault(Type serviceType)
+        public object TryResolve(Type serviceType)
         {
             if (serviceType == null)
                 return null;
+
+            if (serviceType == typeof(IContainer))
+                return this;
 
             Type implementationType;
 
