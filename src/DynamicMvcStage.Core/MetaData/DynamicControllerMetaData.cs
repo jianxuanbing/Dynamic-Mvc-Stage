@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DynamicMvcStage.Core.Extensions;
+using DynamicMvcStage.Core.MetaData.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace DynamicMvcStage.Core.MetaData
 {
-    internal class DynamicControllerMetaData
+    public class DynamicControllerMetaData
     {
         public string ControllerName { get; }
         public Type ServiceType { get; }
         public Type ImplementationType { get; }
 
-        public DynamicControllerMetaData(string controllerName, Type serviceType, Type implementationType)
+        public DynamicControllerMetaData(string controllerName , Type serviceType , Type implementationType)
         {
             if (string.IsNullOrEmpty(controllerName)) throw new ArgumentNullException(nameof(controllerName));
             if (serviceType == null) throw new ArgumentNullException(nameof(serviceType));
@@ -24,14 +26,25 @@ namespace DynamicMvcStage.Core.MetaData
             ServiceType = serviceType;
             ImplementationType = implementationType;
         }
-        public virtual DynamicAttributeMetaData[] GetAttributes()
+        public virtual DynamicAttributeMetaData[] GetDynamicAttributes()
         {
-            return null;
+            IEnumerable<CustomAttributeData> customAttributeDatas = ServiceType.GetTypeInfo().CustomAttributes.FilterType<CustomAttributeData , ControllerAttribute>(c => c.AttributeType);
+            return customAttributeDatas.Select(c => new DynamicAttributeMetaData(c)).ToArray();
         }
-        
-        public virtual DynamicActionMetaData[] GetActions()
+
+        public virtual DynamicActionMetaData[] GetDynamicActions()
         {
-            return null;
+            IEnumerable<MethodInfo> actionMethods = ServiceType.GetTypeInfo().GetMethods().Where(m => m.IsDefined(typeof(ActionAttribute)));
+            return GetDynamicActions(actionMethods).ToArray();
+        }
+
+        private IEnumerable<DynamicActionMetaData> GetDynamicActions(IEnumerable<MethodInfo> actionMethods)
+        {
+            foreach (MethodInfo method in actionMethods)
+            {
+                ActionAttribute actionAttribute = method.GetCustomAttribute<ActionAttribute>();
+                yield return new DynamicActionMetaData(method: method , actionName: string.IsNullOrEmpty(actionAttribute.Name) ? method.Name : actionAttribute.Name);
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DynamicMvcStage.Core;
+using DynamicMvcStage.Core.Controllers;
 
 namespace DynamicMvcStage.Test
 {

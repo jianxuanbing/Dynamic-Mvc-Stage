@@ -1,4 +1,5 @@
 ﻿using DynamicMvcStage.Core.DependencyInjection;
+using DynamicMvcStage.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,13 +21,9 @@ namespace DynamicMvcStage.Sample
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             IContainer container = new Container();
-
             container.RegisterDynamicMvcCore();
-            //container.Register<IAsyncActionInvoker, __test.TestAsyncControllerActionInvoker>();
-            container.Register<Controllers.TestController>();
-
-
-            DependencyResolver.SetResolver(new StageDependencyResolve(container));
+            container.RegisterDynamicMvcController<ITestService , TestService>();
+            DependencyResolver.SetResolver(container.TryResolve , type => new object[] { });
         }
     }
 }

@@ -27,12 +27,30 @@ namespace DynamicMvcStage.Test.DependencyInjection
             Assert.IsInstanceOfType(mock , typeof(Mock));
         }
 
+        [TestMethod]
+        public void ResolveGenericClassTest()
+        {
+            Container container = new Container();
+            container.Register<IMock<ContainerTest> , Mock<ContainerTest>>();
+            IMock<ContainerTest> mock = container.Resolve<IMock<ContainerTest>>();
+            Assert.IsNotNull(mock);
+            Assert.IsInstanceOfType(mock , typeof(IMock<ContainerTest>));
+        }
 
+       
         private interface IMock
         {
         }
 
         private class Mock : IMock
+        {
+        }
+
+        private interface IMock<T>
+        {
+        }
+
+        private class Mock<T> : IMock<T>
         {
         }
     }

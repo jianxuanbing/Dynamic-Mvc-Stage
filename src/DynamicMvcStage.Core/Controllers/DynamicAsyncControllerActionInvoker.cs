@@ -1,27 +1,22 @@
-﻿using DynamicMvcStage.Core.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Mvc.Async;
 
-namespace DynamicMvcStage.Core
+namespace DynamicMvcStage.Core.Controllers
 {
     public class DynamicAsyncControllerActionInvoker : AsyncControllerActionInvoker
     {
-        private readonly IDynamicControllerTypeFactory dynamicControllerTypeFactory;
-        public DynamicAsyncControllerActionInvoker(IDynamicControllerTypeFactory dynamicControllerTypeFactory)
+        private readonly IDynamicControllerContextManager dynamicControllerContextManager;
+
+        public DynamicAsyncControllerActionInvoker(IDynamicControllerContextManager dynamicControllerContextManager)
         {
-            this.dynamicControllerTypeFactory = dynamicControllerTypeFactory;
+            this.dynamicControllerContextManager = dynamicControllerContextManager;
         }
+
         protected override ControllerDescriptor GetControllerDescriptor(ControllerContext controllerContext)
         {
-            DynamicControllerContext dynamicControllerContext = new DynamicControllerContext((string)controllerContext.RouteData.Values["controller"]);
-            Type dynamicControllerType = dynamicControllerTypeFactory.CreateControllerType(dynamicControllerContext);
-            controllerContext.Controller = dynamicControllerTypeFactory.CreateController(dynamicControllerContext);
-            return new ReflectedControllerDescriptor(dynamicControllerType);
+            DynamicControllerContext dynamicControllerContext = dynamicControllerContextManager.GetContext((string)controllerContext.RouteData.Values["controller"]);
+            if (dynamicControllerContext == null) return base.GetControllerDescriptor(controllerContext);
+            return new ReflectedControllerDescriptor(dynamicControllerContext.ControllerType);
         }
     }
 }

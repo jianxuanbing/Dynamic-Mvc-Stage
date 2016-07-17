@@ -122,12 +122,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="__test\TestAsyncControllerActionInvoker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -169,11 +167,11 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -187,6 +185,10 @@
     <ProjectReference Include="..\DynamicMvcStage.Core\DynamicMvcStage.Core.csproj">
       <Project>{e16b36a1-c365-49ad-89ba-ceffd42f5e08}</Project>
       <Name>DynamicMvcStage.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DynamicMvcStage.Service\DynamicMvcStage.Service.csproj">
+      <Project>{55ae779d-5aef-4669-a293-ddba494e7653}</Project>
+      <Name>DynamicMvcStage.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

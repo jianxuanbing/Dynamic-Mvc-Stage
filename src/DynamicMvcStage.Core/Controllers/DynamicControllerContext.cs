@@ -1,11 +1,12 @@
 ﻿using DynamicMvcStage.Core.Controllers;
+using DynamicMvcStage.Core.MetaData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DynamicMvcStage.Core
+namespace DynamicMvcStage.Core.Controllers
 {
     public sealed class DynamicControllerContext
     {
@@ -13,9 +14,11 @@ namespace DynamicMvcStage.Core
 
         public Type ControllerType { get; set; }
 
+        public DynamicControllerMetaData DynamicControllerMetaData { get; set; }
+
         public DynamicControllerContext(string controllerName)
         {
-            ControllerName = DynamicControllerHelper.GetDynamicControllerName(controllerName);
+            ControllerName = DynamicMvcHelper.GetDynamicControllerName(controllerName);
         }
     }
 }
